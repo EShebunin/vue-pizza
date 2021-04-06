@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
+
 :root {
-  
+  --color-orange: #fe5f1e;
+}
+
+body {
+  background-color: #ffdf8c;
+
+  width: 100%;
+
+  padding: 45px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#app {
+  width: inherit;
+  height: inherit;
 }
