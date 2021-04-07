@@ -9,7 +9,7 @@
         </div>
       </div>
 
-      <button class="btn font-bold text-sm">
+      <button class="btn btn--large text-sm text-white bg-orange">
         520 ₽
         <div class="h-5 border-current opacity-25 border mx-3"></div>
         <svg class="w-4 h-4 stroke-current mr-2" viewBox="0 0 18 18" fill="none">
@@ -35,11 +35,88 @@
         3
       </button>
     </header>
+
+    <div class="divider border-b border-gray-300 my-10"></div>
+
+    <nav class="nav flex items-center justify-between">
+      <ul class="list flex flex-wrap">
+        <li v-for="(category, index) in categories" :key="index" class="list__item mr-2">
+          <button
+            class="btn btn--medium text-base hover:bg-gray-800 hover:text-white"
+            :class="{
+              'bg-gray-800 text-white': index === activeItem,
+              'text-gray-700 bg-gray-100': index !== activeItem,
+            }"
+            @click="clickToNavBtn(index)"
+          >
+            {{ category }}
+          </button>
+        </li>
+      </ul>
+
+      <div class="text-gray-700 text-sm flex items-center relative">
+        <svg width="10" height="6" viewBox="0 0 10 6" class="fill-current">
+          <path
+            d="M10 5C10 5.16927 9.93815 5.31576 9.81445 5.43945C9.69075 5.56315 9.54427 5.625 9.375 5.625H0.625C0.455729 5.625 0.309245 5.56315 0.185547 5.43945C0.061849 5.31576 0 5.16927 0 5C0 4.83073 0.061849 4.68424 0.185547 4.56055L4.56055 0.185547C4.68424 0.061849 4.83073 0 5 0C5.16927 0 5.31576 0.061849 5.43945 0.185547L9.81445 4.56055C9.93815 4.68424 10 4.83073 10 5Z"
+          />
+        </svg>
+
+        <p class="font-bold mx-2">Сортировка по:</p>
+
+        <button @click="toogleDropdown" class="text-orange border-b border-dotted border-orange">
+          {{ sortByArray[activeItemSortBy] }}
+        </button>
+
+        <div v-if="visibleDropdown" class="dropdown">
+          <ul>
+            <li v-for="(name, index) in sortByArray" :key="index">
+              <button
+                @click="clickToDropdownBtn(index)"
+                class="dropdown__btn"
+                :class="{ 'dropdown__btn--active': activeItemSortBy === index }"
+              >
+                {{ name }}
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      categories: ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'],
+      activeItem: 0,
+
+      visibleDropdown: false,
+
+      sortByArray: ['популярности', 'по цене', 'по алфавиту'],
+      activeItemSortBy: 0,
+    };
+  },
+
+  methods: {
+    clickToNavBtn(index) {
+      this.activeItem = index;
+    },
+
+    closeDropdown() {
+      this.visibleDropdown = false;
+    },
+    toogleDropdown() {
+      this.visibleDropdown = !this.visibleDropdown;
+    },
+
+    clickToDropdownBtn(index) {
+      this.activeItemSortBy = index;
+      this.closeDropdown();
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -59,13 +136,53 @@ export default {};
 .btn {
   @apply flex;
   @apply items-center;
+  @apply font-bold;
 
-  @apply px-6;
-  @apply py-4;
+  &:focus {
+    outline: none;
+  }
 
-  @apply bg-orange;
-  @apply text-white;
+  &--large {
+    @apply px-6;
+    height: 50px;
+  }
+
+  &--medium {
+    @apply px-6;
+    height: 46px;
+  }
 
   border-radius: 30px;
+}
+
+.dropdown {
+  @apply bg-white;
+
+  width: 132px;
+
+  position: absolute;
+  right: 0;
+  top: 30px;
+
+  border-radius: 10px;
+
+  padding: 13px 0;
+
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.09);
+
+  &__btn {
+    width: 100%;
+    height: 38px;
+    padding-left: 14px;
+
+    text-align: left;
+
+    &--active,
+    &:hover {
+      @apply text-orange;
+      @apply font-bold;
+      background-color: rgba(254, 95, 30, 0.05);
+    }
+  }
 }
 </style>
