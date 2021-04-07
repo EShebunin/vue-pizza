@@ -38,7 +38,7 @@
 
     <div class="divider border-b border-gray-300 my-10"></div>
 
-    <nav class="nav flex items-center justify-between">
+    <nav class="nav flex items-center justify-between mb-8">
       <ul class="list flex flex-wrap">
         <li v-for="(category, index) in categories" :key="index" class="list__item mr-2">
           <button
@@ -55,7 +55,13 @@
       </ul>
 
       <div class="text-gray-700 text-sm flex items-center relative">
-        <svg width="10" height="6" viewBox="0 0 10 6" class="fill-current">
+        <svg
+          width="10"
+          height="6"
+          viewBox="0 0 10 6"
+          class="fill-current"
+          :class="{ 'transform rotate-180': visibleDropdown }"
+        >
           <path
             d="M10 5C10 5.16927 9.93815 5.31576 9.81445 5.43945C9.69075 5.56315 9.54427 5.625 9.375 5.625H0.625C0.455729 5.625 0.309245 5.56315 0.185547 5.43945C0.061849 5.31576 0 5.16927 0 5C0 4.83073 0.061849 4.68424 0.185547 4.56055L4.56055 0.185547C4.68424 0.061849 4.83073 0 5 0C5.16927 0 5.31576 0.061849 5.43945 0.185547L9.81445 4.56055C9.93815 4.68424 10 4.83073 10 5Z"
           />
@@ -82,6 +88,47 @@
         </div>
       </div>
     </nav>
+
+    <main>
+      <h1 class="font-bold text-2xl mb-9">Все пиццы</h1>
+
+      <div class="pizza-card text-center">
+        <img
+          src="https://dodopizza-a.akamaihd.net/static/Img/Products/5dffe4c7d3bc49668f50c1d08d920992_292x292.jpeg"
+          alt="pizza image"
+          class="pizza-card__img mx-auto"
+        />
+
+        <h2 class="font-extrabold text-xl mt-2 mb-5">Пеперони</h2>
+
+        <div class="bg-gray-100 py-2 px-1 rounded-xl mb-4">
+          <div class="w-full flex justify-between mb-2">
+            <button class="pizza-card__button pizza-card__button--active">тонкое</button>
+            <button class="pizza-card__button">традиционное</button>
+          </div>
+
+          <div class="w-full flex justify-between">
+            <button disabled class="pizza-card__button pizza-card__button--small">26 см.</button>
+            <button class="pizza-card__button pizza-card__button--small">30 см.</button>
+            <button class="pizza-card__button pizza-card__button--small">40 см.</button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <p class="font-bold text-xl">от 395 ₽</p>
+
+          <button class="btn btn--small pizza-card__btn">
+            <svg class="w-3 h-3 fill-current mr-2" viewBox="0 0 12 12">
+              <path
+                d="M10.8 4.8H7.2V1.2C7.2 0.5373 6.6627 0 6 0C5.3373 0 4.8 0.5373 4.8 1.2V4.8H1.2C0.5373 4.8 0 5.3373 0 6C0 6.6627 0.5373 7.2 1.2 7.2H4.8V10.8C4.8 11.4627 5.3373 12 6 12C6.6627 12 7.2 11.4627 7.2 10.8V7.2H10.8C11.4627 7.2 12 6.6627 12 6C12 5.3373 11.4627 4.8 10.8 4.8Z"
+              />
+            </svg>
+
+            Добавить
+          </button>
+        </div>
+      </div>
+    </main>
   </div>
 </template>
 
@@ -138,18 +185,23 @@ export default {
   @apply items-center;
   @apply font-bold;
 
+  @apply px-6;
+
   &:focus {
     outline: none;
   }
 
   &--large {
-    @apply px-6;
     height: 50px;
   }
 
   &--medium {
-    @apply px-6;
     height: 46px;
+  }
+
+  &--small {
+    padding: 0 18px;
+    height: 40px;
   }
 
   border-radius: 30px;
@@ -182,6 +234,53 @@ export default {
       @apply text-orange;
       @apply font-bold;
       background-color: rgba(254, 95, 30, 0.05);
+    }
+  }
+}
+
+.pizza-card {
+  width: 280px;
+
+  &__img {
+    width: 260px;
+    height: 260px;
+  }
+
+  &__button {
+    @apply text-sm;
+    @apply text-gray-700;
+    @apply font-bold;
+
+    width: 132px;
+    height: 32px;
+
+    border-radius: 5px;
+
+    &:disabled {
+      opacity: 0.2;
+
+      &:hover {
+        @apply bg-transparent;
+      }
+    }
+
+    &--active, &:hover {
+      @apply bg-white;
+    }
+
+    &--small {
+      width: 86px;
+    }
+  }
+
+  &__btn {
+    @apply text-orange;
+    @apply border;
+    @apply border-orange;
+
+    &--active, &:hover {
+      @apply text-white;
+      @apply bg-orange;
     }
   }
 }
