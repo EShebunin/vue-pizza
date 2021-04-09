@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper mx-auto">
     <header class="header flex items-center justify-between">
       <div class="logo flex items-center">
         <img class="object-cover w-9 h-9 mr-4" src="./assets/logo.png" alt="logo" />
@@ -92,48 +92,22 @@
     <main>
       <h1 class="font-bold text-2xl mb-9">Все пиццы</h1>
 
-      <div class="pizza-card text-center">
-        <img
-          src="https://dodopizza-a.akamaihd.net/static/Img/Products/5dffe4c7d3bc49668f50c1d08d920992_292x292.jpeg"
-          alt="pizza image"
-          class="pizza-card__img mx-auto"
-        />
-
-        <h2 class="font-extrabold text-xl mt-2 mb-5">Пеперони</h2>
-
-        <div class="bg-gray-100 py-2 px-1 rounded-xl mb-4">
-          <div class="w-full flex justify-between mb-2">
-            <button class="pizza-card__button pizza-card__button--active">тонкое</button>
-            <button class="pizza-card__button">традиционное</button>
-          </div>
-
-          <div class="w-full flex justify-between">
-            <button disabled class="pizza-card__button pizza-card__button--small">26 см.</button>
-            <button class="pizza-card__button pizza-card__button--small">30 см.</button>
-            <button class="pizza-card__button pizza-card__button--small">40 см.</button>
-          </div>
-        </div>
-
-        <div class="flex items-center justify-between">
-          <p class="font-bold text-xl">от 395 ₽</p>
-
-          <button class="btn btn--small pizza-card__btn">
-            <svg class="w-3 h-3 fill-current mr-2" viewBox="0 0 12 12">
-              <path
-                d="M10.8 4.8H7.2V1.2C7.2 0.5373 6.6627 0 6 0C5.3373 0 4.8 0.5373 4.8 1.2V4.8H1.2C0.5373 4.8 0 5.3373 0 6C0 6.6627 0.5373 7.2 1.2 7.2H4.8V10.8C4.8 11.4627 5.3373 12 6 12C6.6627 12 7.2 11.4627 7.2 10.8V7.2H10.8C11.4627 7.2 12 6.6627 12 6C12 5.3373 11.4627 4.8 10.8 4.8Z"
-              />
-            </svg>
-
-            Добавить
-          </button>
-        </div>
+      <div class="pizza-cards">
+        <pizza-card v-for="pizza in pizzas" :key="pizza.id" :pizzaObject="pizza"> </pizza-card>
       </div>
     </main>
   </div>
 </template>
 
 <script>
+import { pizzas } from './db.json';
+import PizzaCard from './components/PizzaCard.vue';
+
 export default {
+  components: {
+    PizzaCard,
+  },
+
   data() {
     return {
       categories: ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'],
@@ -143,6 +117,10 @@ export default {
 
       sortByArray: ['популярности', 'по цене', 'по алфавиту'],
       activeItemSortBy: 0,
+
+      types: ['тонкое', 'традиционное'],
+
+      pizzas: [],
     };
   },
 
@@ -162,6 +140,10 @@ export default {
       this.activeItemSortBy = index;
       this.closeDropdown();
     },
+  },
+
+  mounted() {
+    this.pizzas = pizzas;
   },
 };
 </script>
@@ -238,50 +220,10 @@ export default {
   }
 }
 
-.pizza-card {
-  width: 280px;
-
-  &__img {
-    width: 260px;
-    height: 260px;
-  }
-
-  &__button {
-    @apply text-sm;
-    @apply text-gray-700;
-    @apply font-bold;
-
-    width: 132px;
-    height: 32px;
-
-    border-radius: 5px;
-
-    &:disabled {
-      opacity: 0.2;
-
-      &:hover {
-        @apply bg-transparent;
-      }
-    }
-
-    &--active, &:hover {
-      @apply bg-white;
-    }
-
-    &--small {
-      width: 86px;
-    }
-  }
-
-  &__btn {
-    @apply text-orange;
-    @apply border;
-    @apply border-orange;
-
-    &--active, &:hover {
-      @apply text-white;
-      @apply bg-orange;
-    }
-  }
+.pizza-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 280px));
+  column-gap: 19px;
+  row-gap: 65px;
 }
 </style>
